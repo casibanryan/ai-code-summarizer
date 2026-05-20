@@ -28,6 +28,8 @@ ai-code-summarizer/
 ├── .gitignore              # A safety file telling Git not to share your secret key online
 ├── README.md               # The file you are reading right now!
 ├── README-AI.md            # The final summary report created by the AI
+├── samples/                # 📂 PLACE YOUR CODE FILES HERE to be analyzed!
+├── tests/                  # 🧪 Holds your test files to make sure the app works perfectly
 │
 └── src/                    # The folder holding the actual software parts
     ├── __init__.py         # A connector link that strings the parts together
