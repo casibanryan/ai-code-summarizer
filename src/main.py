@@ -2,6 +2,7 @@ from pathlib import Path
 import argparse
 
 from models import PythonFile
+from analyzer import CodeAnalyzer
 
 class Main:
 
@@ -11,6 +12,7 @@ class Main:
     args = parser.parse_args()
     self.__path = Path(args.dir) if args.dir else None
     self.__files = []
+    self.__analyzer = CodeAnalyzer()
 
   def __is_empty_path(self):
     return self.__path is None
@@ -50,9 +52,13 @@ class Main:
       success = file_model.read_content()
       
       if success:
-          print(f"✅ Loaded: {file_model.filename} ({file_model.file_size} bytes)")
+        print(f"✅ Loaded: {file_model.filename} ({file_model.file_size} bytes)")
+        print("🔍 Processing please wait ...")
+
+        file_model.summary = self.__analyzer.generate_summary(file_model.filename, file_model.code_content)
+
       else:
-          print(f"❌ Failed to load: {file_model.filename}")
+        print(f"❌ Failed to load: {file_model.filename}")
 
   def run(self):
     self.user_input()
@@ -63,7 +69,7 @@ class Main:
 if __name__ == "__main__":
   app = Main()
   app.run()
-
+  
    
     
 
