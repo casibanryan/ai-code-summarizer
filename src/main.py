@@ -1,6 +1,8 @@
 from pathlib import Path
 import argparse
 
+from models import PythonFile
+
 class Main:
 
   def __init__(self):
@@ -27,18 +29,35 @@ class Main:
       return
 
     if self.__path.suffix == ".py":
-      self.__files.append(Path(self.__path))
+      file_model = PythonFile(self.__path)
+      self.__files.append(file_model)
       return
 
 
     for file in self.__path.iterdir():
       if file.is_file() and file.suffix == ".py":
-        self.__files.append(file)
+        file_model = PythonFile(file)
+        self.__files.append(file_model)
 
   
+  def process_files(self):
+    if not self.__files:
+      print("No Python files discovered to analyze.")
+      return
+
+    print(f"\n--- Processing {len(self.__files)} Python File(s) ---")
+    for file_model in self.__files:
+      success = file_model.read_content()
+      
+      if success:
+          print(f"✅ Loaded: {file_model.filename} ({file_model.file_size} bytes)")
+      else:
+          print(f"❌ Failed to load: {file_model.filename}")
+
   def run(self):
     self.user_input()
     self.store_files()
+    self.process_files()
 
 
 if __name__ == "__main__":
