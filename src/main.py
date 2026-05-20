@@ -3,6 +3,7 @@ import argparse
 
 from models import PythonFile
 from analyzer import CodeAnalyzer
+from exporter import MarkdownExporter
 
 class Main:
 
@@ -13,6 +14,7 @@ class Main:
     self.__path = Path(args.dir) if args.dir else None
     self.__files = []
     self.__analyzer = CodeAnalyzer()
+    self.__exporter = MarkdownExporter()
 
   def __is_empty_path(self):
     return self.__path is None
@@ -64,7 +66,7 @@ class Main:
     self.user_input()
     self.store_files()
     self.process_files()
-
+    self.__exporter.generate_report(self.__files)
 
 if __name__ == "__main__":
   app = Main()
